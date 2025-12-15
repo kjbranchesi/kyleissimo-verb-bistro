@@ -11,21 +11,40 @@
       }
       body {
         margin: 0;
-        background: linear-gradient(145deg, #faf7f2 0%, #f5efe6 50%, #ebe4d8 100%);
+        background: radial-gradient(circle at 10% 20%, #fff0d8 0%, #fff8f2 30%, #f1f4ff 65%, #ffe7f2 100%);
+        background-size: 240% 240%;
+        animation: bgShift 20s ease-in-out infinite;
         font-family: "Crimson Pro", Georgia, serif;
         padding: 24px;
       }
       .verb-card {
         transition: all 0.2s ease;
         cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(4px);
+      }
+      .verb-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.35), transparent 40%),
+          radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.28), transparent 55%);
+        transition: opacity 0.2s ease;
       }
       .verb-card:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(139, 90, 43, 0.15);
+        border-color: rgba(0, 0, 0, 0.05);
+      }
+      .verb-card:hover::after {
+        opacity: 1;
       }
       .verb-card.selected {
         background: linear-gradient(135deg, #8b5a2b 0%, #a0522d 100%);
         color: white;
+        animation: pop 0.4s ease;
       }
       .category-pill {
         transition: all 0.2s ease;
@@ -41,42 +60,273 @@
       }
       .category-pill:hover {
         background: rgba(139, 90, 43, 0.12);
+        transform: translateY(-1px);
       }
       .category-pill.selected {
         background: #3d2914;
         color: #f7f0e6;
         border-color: rgba(0, 0, 0, 0.2);
         box-shadow: 0 4px 12px rgba(61, 41, 20, 0.25);
+        animation: pulseGlow 1.4s ease-in-out infinite alternate;
       }
       .tense-tab {
         transition: all 0.2s ease;
         cursor: pointer;
         border: 2px solid transparent;
+        transform: translateY(0);
       }
       .tense-tab:hover {
         background: rgba(139, 90, 43, 0.08);
+        transform: translateY(-2px) rotate(-0.5deg);
       }
       .tense-tab.selected {
         background: white;
         border-color: #8b5a2b;
         box-shadow: 0 4px 12px rgba(139, 90, 43, 0.15);
+        animation: wiggle 1s ease-in-out;
       }
       .conjugation-row {
         transition: background 0.15s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .conjugation-row:nth-child(odd) {
+        background: linear-gradient(90deg, rgba(139, 90, 43, 0.02), rgba(255, 255, 255, 0));
       }
       .conjugation-row:hover {
         background: rgba(139, 90, 43, 0.04);
+        transform: translateX(2px);
       }
       .toggle-btn {
         transition: all 0.2s ease;
+        position: relative;
       }
       .toggle-btn:hover {
         transform: scale(1.02);
+        box-shadow: 0 6px 18px rgba(139, 90, 43, 0.25);
       }
       input:focus {
         outline: none;
         border-color: #8b5a2b;
         box-shadow: 0 0 0 3px rgba(139, 90, 43, 0.1);
+      }
+      .hero-card {
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 18px;
+        align-items: center;
+        background: linear-gradient(130deg, #ffe6b7 0%, #ffc7d8 35%, #cde4ff 90%);
+        border-radius: 26px;
+        padding: 28px 32px;
+        box-shadow: 0 20px 44px rgba(139, 90, 43, 0.16);
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        animation: bounceIn 0.8s ease;
+      }
+      .hero-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.45), transparent 35%),
+          radial-gradient(circle at 15% 80%, rgba(255, 255, 255, 0.35), transparent 45%);
+        pointer-events: none;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.7);
+        color: #8b5a2b;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 12px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      }
+      .hero-mascot {
+        position: relative;
+        justify-self: center;
+      }
+      .hero-mascot img {
+        width: 150px;
+        max-width: 100%;
+        filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.15));
+        animation: floaty 4.5s ease-in-out infinite;
+      }
+      .hero-mascot::after {
+        content: "";
+        position: absolute;
+        inset: auto 12% -12px 12%;
+        height: 18px;
+        background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.18), transparent 60%);
+        filter: blur(10px);
+        opacity: 0.7;
+      }
+      .speech-bubble {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: white;
+        border-radius: 12px;
+        padding: 10px 12px;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 700;
+        color: #8b5a2b;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        animation: wiggle 1.4s ease-in-out infinite alternate;
+      }
+      .speech-bubble::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 14px;
+        width: 14px;
+        height: 14px;
+        background: white;
+        transform: rotate(45deg);
+      }
+      .confetti-dot {
+        position: absolute;
+        border-radius: 50%;
+        animation: floaty 6s ease-in-out infinite;
+        opacity: 0.6;
+      }
+      .confetti-dot.one {
+        width: 12px;
+        height: 12px;
+        background: #ff8fb1;
+        top: 12%;
+        left: 8%;
+        animation-duration: 7s;
+      }
+      .confetti-dot.two {
+        width: 10px;
+        height: 10px;
+        background: #7ec4ff;
+        top: 18%;
+        right: 6%;
+        animation-duration: 8s;
+        animation-delay: 0.5s;
+      }
+      .confetti-dot.three {
+        width: 14px;
+        height: 14px;
+        background: #ffd166;
+        bottom: 10%;
+        left: 14%;
+        animation-duration: 9s;
+        animation-delay: 0.2s;
+      }
+      .example-card {
+        position: relative;
+        overflow: hidden;
+      }
+      .example-card::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        background: conic-gradient(from 90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
+        animation: spin 10s linear infinite;
+        opacity: 0.6;
+      }
+      .example-card > * {
+        position: relative;
+        z-index: 1;
+      }
+      .rainbow-underline {
+        background: linear-gradient(120deg, #1fbf5a 0%, #ffffff 50%, #e63946 100%);
+        background-size: 180% 100%;
+        -webkit-background-clip: text;
+        color: transparent;
+        animation: flagWave 4s ease-in-out infinite;
+      }
+      @keyframes bgShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      @keyframes floaty {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+      @keyframes wiggle {
+        0% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(-1.5deg);
+        }
+        50% {
+          transform: rotate(1.5deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+      @keyframes pulseGlow {
+        0% {
+          box-shadow: 0 0 0 0 rgba(139, 90, 43, 0.35);
+        }
+        100% {
+          box-shadow: 0 0 0 12px rgba(139, 90, 43, 0);
+        }
+      }
+      @keyframes pop {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      @keyframes bounceIn {
+        0% {
+          transform: translateY(12px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes flagWave {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
       }
     </style>
   </head>
@@ -3379,20 +3629,31 @@
             .join("");
 
           root.innerHTML = `
-            <div style="text-align:center; margin-bottom:32px;">
-              <div style="font-size:48px; line-height:1; margin-bottom:10px;">🇮🇹🍝🇮🇹</div>
-              <h1 style="font-size:42px; font-weight:700; color:#3d2914; margin:0 0 8px 0; letter-spacing:-0.5px;">
-                The Kyleissimo Verb Bistro
-              </h1>
-              <p style="font-size:18px; color:#7a6552; margin:0 0 6px 0; font-family:'DM Sans', sans-serif; font-weight:400;">
-                Fresh, handmade Italian conjugations served al dente. 🇮🇹
-              </p>
-              <p style="font-size:12px; color:#8b7355; margin:0; font-family:'DM Sans', sans-serif;">
-                a project by
-                <a href="http://www.kylebranchesi.com" style="color:#8b5a2b; text-decoration:none; font-weight:600;">
-                  Kyle Branchesi
-                </a>
-              </p>
+            <div class="hero-card" style="margin-bottom:32px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+              <span class="confetti-dot one"></span>
+              <span class="confetti-dot two"></span>
+              <span class="confetti-dot three"></span>
+              <div style="position:relative; z-index:1;">
+                <div class="hero-badge">new vibes ✨</div>
+                <div style="font-size:32px; line-height:1; margin:12px 0 6px 0;">🇮🇹🍝🇮🇹</div>
+                <h1 style="font-size:42px; font-weight:700; color:#3d2914; margin:0 0 10px 0; letter-spacing:-0.5px;">
+                  The <span class="rainbow-underline">Kyleissimo Verb Bistro</span>
+                </h1>
+                <p style="font-size:18px; color:#3d2914; margin:0 0 10px 0; font-family:'DM Sans', sans-serif; font-weight:600;">
+                  Fresh, handmade Italian conjugations served al dente.
+                </p>
+                <p style="font-size:13px; color:#5a4a3a; margin:0; font-family:'DM Sans', sans-serif;">
+                  a project by
+                  <a href="http://www.kylebranchesi.com" style="color:#8b5a2b; text-decoration:none; font-weight:700;">
+                    Kyle Branchesi
+                  </a>
+                  · tap the tabs, watch them wiggle 🤏
+                </p>
+              </div>
+              <div class="hero-mascot">
+                <div class="speech-bubble">Ciao! 🤌</div>
+                <img src="images/mascot.png" alt="Italian verb mascot" />
+              </div>
             </div>
 
             <div style="display:flex; gap:16px; margin-bottom:16px; flex-wrap:wrap; align-items:center; justify-content:space-between;">
@@ -3465,7 +3726,7 @@
                   ${conjugationRowsHtml}
                 </div>
 
-                <div style="background:linear-gradient(135deg, #8b5a2b 0%, #a0522d 100%); border-radius:16px; padding:24px; color:white;">
+                <div class="example-card" style="background:linear-gradient(135deg, #8b5a2b 0%, #a0522d 100%); border-radius:16px; padding:24px; color:white;">
                   <div style="font-size:12px; text-transform:uppercase; letter-spacing:1.5px; opacity:0.7; margin-bottom:12px; font-family:'DM Sans', sans-serif; font-weight:600;">
                     Example
                   </div>
